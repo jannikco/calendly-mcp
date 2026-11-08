@@ -1,0 +1,116 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Calendly selected operations",
+    "version": "0.1.0",
+    "description": "Reviewed local connector bindings for manual API import. No provider credentials are included; authentication and hosted execution require separate configuration and tests."
+  },
+  "servers": [
+    {
+      "url": "https://api.calendly.com"
+    }
+  ],
+  "paths": {
+    "/users/me": {
+      "get": {
+        "operationId": "calendly_get_current_user",
+        "summary": "Read the authenticated user URI needed for event-type lookup.",
+        "parameters": [],
+        "x-pipmcp-read-only": true,
+        "responses": {
+          "200": {
+            "description": "Provider response; inspect provider documentation for result fields."
+          }
+        }
+      }
+    },
+    "/event_types": {
+      "get": {
+        "operationId": "calendly_list_event_types",
+        "summary": "Read event types owned by the chosen authenticated user URI.",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^https://api\\.calendly\\.com/users/[A-Za-z0-9-]+$"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "x-pipmcp-read-only": true,
+        "responses": {
+          "200": {
+            "description": "Provider response; inspect provider documentation for result fields."
+          }
+        }
+      }
+    },
+    "/scheduling_links": {
+      "post": {
+        "operationId": "calendly_create_single_use_link",
+        "summary": "Create a scheduling link limited to one event; plan/access requirements apply.",
+        "parameters": [],
+        "x-pipmcp-read-only": false,
+        "responses": {
+          "200": {
+            "description": "Provider response; inspect provider documentation for result fields."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "owner": {
+                    "type": "string",
+                    "pattern": "^https://api\\.calendly\\.com/event_types/[A-Za-z0-9-]+$"
+                  },
+                  "owner_type": {
+                    "const": "EventType",
+                    "default": "EventType"
+                  },
+                  "max_event_count": {
+                    "const": 1,
+                    "default": 1
+                  }
+                },
+                "required": [
+                  "owner",
+                  "owner_type",
+                  "max_event_count"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "providerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "providerAuth": []
+    }
+  ]
+}
