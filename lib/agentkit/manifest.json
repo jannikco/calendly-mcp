@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "product": "pipmcp",
+  "credential": "PIPMCP_API_KEY",
+  "skills": [
+    {
+      "name": "pipmcp-calendly",
+      "description": "Connect AI agents to Calendly using one PipMCP API key and actual hosted tool discovery."
+    }
+  ],
+  "files": {
+    "skills/pipmcp-calendly/SKILL.md": "72da4e240bbcf156ce336ab38140d0488eb1f6faacd0393faf43372c309ab0d8"
+  }
+}
